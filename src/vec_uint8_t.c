@@ -1,10 +1,10 @@
-#include "vec_uint8_t.h"
+#include "vec_t.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct _vec {
+typedef struct _vec_uint8_t {
 	uint8_t* elems;
 	size_t capacity;
 	size_t size;
@@ -12,7 +12,7 @@ typedef struct _vec {
 
 vec_uint8_t* vec_uint8_t_new() {
 	vec_uint8_t* result = malloc(sizeof(vec_uint8_t));
-	result->elems = malloc(1);
+	result->elems = malloc(sizeof(uint8_t));
 	result->capacity = 1;
 	result->size = 0;
 	return result;
@@ -20,7 +20,7 @@ vec_uint8_t* vec_uint8_t_new() {
 
 vec_uint8_t* vec_uint8_t_with_capacity(size_t n) {
 	vec_uint8_t* result = malloc(sizeof(vec_uint8_t));
-	result->elems = malloc(n);
+	result->elems = malloc(n * sizeof(uint8_t));
 	result->capacity = n;
 	result->size = 0;
 	return result;

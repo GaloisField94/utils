@@ -7,12 +7,11 @@ OBJ = obj
 OBJS = $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 LIB = lib$(PROJECT).a
 
-test: $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+test_bin: $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@.out
 
-$(LIB): $(OBJS)
-	ar ruv $(LIB) $(OBJS)
-	libran $(LIB)
+lib: $(OBJS)
+	ar rcs $(LIB) $(OBJS)
 
 $(OBJ)/%.o: $(SRC)/%.c
 	mkdir -p $(OBJ)
