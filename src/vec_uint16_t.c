@@ -20,7 +20,7 @@ vec_uint16_t* vec_uint16_t_new() {
 
 vec_uint16_t* vec_uint16_t_with_capacity(size_t n) {
 	vec_uint16_t* result = malloc(sizeof(vec_uint16_t));
-	result->elems = malloc(n * sizeof(uint16_t));
+	result->elems = malloc(sizeof(uint16_t) * n);
 	result->capacity = n;
 	result->size = 0;
 	return result;
@@ -28,7 +28,7 @@ vec_uint16_t* vec_uint16_t_with_capacity(size_t n) {
 
 void vec_uint16_t_push(vec_uint16_t* vec, uint16_t elem) {
 	if(vec->size == vec->capacity) {
-		uint16_t* new_elems = malloc(2 * vec->capacity);
+		uint16_t* new_elems = malloc(sizeof(uint16_t) * 2 * vec->capacity);
 		memcpy(new_elems, vec->elems, vec->capacity);
 		free(vec->elems);
 		vec->elems = new_elems;

@@ -20,7 +20,7 @@ vec_int8_t* vec_int8_t_new() {
 
 vec_int8_t* vec_int8_t_with_capacity(size_t n) {
 	vec_int8_t* result = malloc(sizeof(vec_int8_t));
-	result->elems = malloc(n * sizeof(int8_t));
+	result->elems = malloc(sizeof(int8_t) * n);
 	result->capacity = n;
 	result->size = 0;
 	return result;
@@ -28,7 +28,7 @@ vec_int8_t* vec_int8_t_with_capacity(size_t n) {
 
 void vec_int8_t_push(vec_int8_t* vec, int8_t elem) {
 	if(vec->size == vec->capacity) {
-		int8_t* new_elems = malloc(2 * vec->capacity);
+		int8_t* new_elems = malloc(sizeof(int8_t) * 2 * vec->capacity);
 		memcpy(new_elems, vec->elems, vec->capacity);
 		free(vec->elems);
 		vec->elems = new_elems;

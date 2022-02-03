@@ -20,7 +20,7 @@ vec_int64_t* vec_int64_t_new() {
 
 vec_int64_t* vec_int64_t_with_capacity(size_t n) {
 	vec_int64_t* result = malloc(sizeof(vec_int64_t));
-	result->elems = malloc(n * sizeof(int64_t));
+	result->elems = malloc(sizeof(int64_t) * n);
 	result->capacity = n;
 	result->size = 0;
 	return result;
@@ -28,7 +28,7 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n) {
 
 void vec_int64_t_push(vec_int64_t* vec, int64_t elem) {
 	if(vec->size == vec->capacity) {
-		int64_t* new_elems = malloc(2 * vec->capacity);
+		int64_t* new_elems = malloc(sizeof(int64_t) * 2 * vec->capacity);
 		memcpy(new_elems, vec->elems, vec->capacity);
 		free(vec->elems);
 		vec->elems = new_elems;

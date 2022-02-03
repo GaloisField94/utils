@@ -20,7 +20,7 @@ vec_uint32_t* vec_uint32_t_new() {
 
 vec_uint32_t* vec_uint32_t_with_capacity(size_t n) {
 	vec_uint32_t* result = malloc(sizeof(vec_uint32_t));
-	result->elems = malloc(n * sizeof(uint32_t));
+	result->elems = malloc(sizeof(uint32_t) * n);
 	result->capacity = n;
 	result->size = 0;
 	return result;
@@ -28,7 +28,7 @@ vec_uint32_t* vec_uint32_t_with_capacity(size_t n) {
 
 void vec_uint32_t_push(vec_uint32_t* vec, uint32_t elem) {
 	if(vec->size == vec->capacity) {
-		uint32_t* new_elems = malloc(2 * vec->capacity);
+		uint32_t* new_elems = malloc(sizeof(uint32_t) * 2 * vec->capacity);
 		memcpy(new_elems, vec->elems, vec->capacity);
 		free(vec->elems);
 		vec->elems = new_elems;
