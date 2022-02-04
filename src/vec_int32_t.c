@@ -29,7 +29,7 @@ vec_int32_t* vec_int32_t_with_capacity(size_t n) {
 void vec_int32_t_push(vec_int32_t* vec, int32_t elem) {
 	if(vec->size == vec->capacity) {
 		int32_t* new_elems = malloc(sizeof(int32_t) * 2 * vec->capacity);
-		memcpy(new_elems, vec->elems, vec->capacity);
+		for(size_t i = 0; i < vec->capacity; i++) new_elems[i] = vec->elems[i];
 		free(vec->elems);
 		vec->elems = new_elems;
 		vec->capacity *= 2;
@@ -76,7 +76,7 @@ void vec_int32_t_free(vec_int32_t* vec) {
 
 void vec_int32_t_print(const vec_int32_t* vec) {
 	for(size_t i = 0; i < vec->size; i++) {
-		printf("%08X, ", vec->elems[i]);
+		printf("%d, ", vec->elems[i]);
 	}
 	printf("\n%ld\n", vec->capacity);
 	printf("%ld\n", vec->size);

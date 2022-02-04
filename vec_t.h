@@ -16,6 +16,7 @@ typedef struct _vec_int8_t vec_int8_t;
 typedef struct _vec_int16_t vec_int16_t;
 typedef struct _vec_int32_t vec_int32_t;
 typedef struct _vec_int64_t vec_int64_t;
+typedef struct _vec_t vec_t;
 
 //--------------------||
 //--- constructors ---||
@@ -37,6 +38,8 @@ vec_int32_t* vec_int32_t_new();
 vec_int32_t* vec_int32_t_with_capacity(size_t n);
 vec_int64_t* vec_int64_t_new();
 vec_int64_t* vec_int64_t_with_capacity(size_t n);
+vec_t* vec_t_new();
+vec_t* vec_t_with_capacity(size_t n);
 
 //-------------------------------||
 //--- templates for functions ---||
@@ -50,7 +53,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_push, \
     vec_int16_t*: vec_int16_t_push, \
     vec_int32_t*: vec_int32_t_push, \
-    vec_int64_t*: vec_int64_t_push)(v, e)
+    vec_int64_t*: vec_int64_t_push, \
+    default: vec_t_push)(v, e)
 
 #define vec_push_unchecked(v, e) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_push_unchecked, \
@@ -60,7 +64,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_push_unchecked, \
     vec_int16_t*: vec_int16_t_push_unchecked, \
     vec_int32_t*: vec_int32_t_push_unchecked, \
-    vec_int64_t*: vec_int64_t_push_unchecked)(v, e)
+    vec_int64_t*: vec_int64_t_push_unchecked, \
+    default: vec_t_push_unchecked)(v, e)
 
 #define vec_pop(v) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_pop, \
@@ -70,7 +75,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_pop, \
     vec_int16_t*: vec_int16_t_pop, \
     vec_int32_t*: vec_int32_t_pop, \
-    vec_int64_t*: vec_int64_t_pop)(v)
+    vec_int64_t*: vec_int64_t_pop, \
+    default: vec_t_pop)(v)
 
 #define vec_pop_unchecked(v) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_pop_unchecked, \
@@ -80,7 +86,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_pop_unchecked, \
     vec_int16_t*: vec_int16_t_pop_unchecked, \
     vec_int32_t*: vec_int32_t_pop_unchecked, \
-    vec_int64_t*: vec_int64_t_pop_unchecked)(v)
+    vec_int64_t*: vec_int64_t_pop_unchecked, \
+    default: vec_uint16_t_pop_unchecked)(v)
 
 #define vec_set(v, i) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_set, \
@@ -90,7 +97,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_set, \
     vec_int16_t*: vec_int16_t_set, \
     vec_int32_t*: vec_int32_t_set, \
-    vec_int64_t*: vec_int64_t_set)(v, i)
+    vec_int64_t*: vec_int64_t_set, \
+    default: vec_t_set)(v, i)
 
 #define vec_set_unchecked(v, i) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_set_unchecked, \
@@ -100,7 +108,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_set_unchecked, \
     vec_int16_t*: vec_int16_t_set_unchecked, \
     vec_int32_t*: vec_int32_t_set_unchecked, \
-    vec_int64_t*: vec_int64_t_set_unchecked)(v, i)
+    vec_int64_t*: vec_int64_t_set_unchecked, \
+    default: vec_t_set_unchecked)(v, i)
 
 #define vec_get(v, i) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_get, \
@@ -110,7 +119,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_get, \
     vec_int16_t*: vec_int16_t_get, \
     vec_int32_t*: vec_int32_t_get, \
-    vec_int64_t*: vec_int64_t_get)(v, i)
+    vec_int64_t*: vec_int64_t_get, \
+    default: vec_t_get)(v, i)
 
 #define vec_get_unchecked(v, i) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_get_unchecked, \
@@ -120,7 +130,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_get_unchecked, \
     vec_int16_t*: vec_int16_t_get_unchecked, \
     vec_int32_t*: vec_int32_t_get_unchecked, \
-    vec_int64_t*: vec_int64_t_get_unchecked)(v, i)
+    vec_int64_t*: vec_int64_t_get_unchecked, \
+    default: vec_t_get_unchecked)(v, i)
 
 #define vec_size(v) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_size, \
@@ -130,7 +141,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_size, \
     vec_int16_t*: vec_int16_t_size, \
     vec_int32_t*: vec_int32_t_size, \
-    vec_int64_t*: vec_int64_t_size)(v)
+    vec_int64_t*: vec_int64_t_size, \
+    default: vec_t_size)(v)
 
 #define vec_capacity(v) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_capacity, \
@@ -140,7 +152,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_capacity, \
     vec_int16_t*: vec_int16_t_capacity, \
     vec_int32_t*: vec_int32_t_capacity, \
-    vec_int64_t*: vec_int64_t_capacity)(v)
+    vec_int64_t*: vec_int64_t_capacity, \
+    default: vec_t_capacity)(v)
 
 #define vec_free(v) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_free, \
@@ -150,7 +163,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_free, \
     vec_int16_t*: vec_int16_t_free, \
     vec_int32_t*: vec_int32_t_free, \
-    vec_int64_t*: vec_int64_t_free)(v)
+    vec_int64_t*: vec_int64_t_free, \
+    default: vec_t_free)(v)
 
 #define vec_print(v) _Generic((v), \
     vec_uint8_t*: vec_uint8_t_print, \
@@ -160,7 +174,8 @@ vec_int64_t* vec_int64_t_with_capacity(size_t n);
     vec_int8_t*: vec_int8_t_print, \
     vec_int16_t*: vec_int16_t_print, \
     vec_int32_t*: vec_int32_t_print, \
-    vec_int64_t*: vec_int64_t_print)(v)
+    vec_int64_t*: vec_int64_t_print, \
+    default: vec_t_print)(v)
 
 //------------------------------||
 //--- functions declarations ---||
@@ -269,5 +284,18 @@ size_t vec_int64_t_size(const vec_int64_t* vec);
 size_t vec_int64_t_capacity(const vec_int64_t* vec);
 void vec_int64_t_free(vec_int64_t* vec);
 void vec_int64_t_print(const vec_int64_t* vec);
+
+void vec_t_push(vec_t* vec, void* elem);
+void vec_t_push_unchecked(vec_t* vec, void* elem);
+void* vec_t_pop(vec_t* vec);
+void* vec_t_pop_unchecked(vec_t* vec);
+void vec_t_set(vec_t* vec, size_t index, void* elem);
+void vec_t_set_unchecked(vec_t* vec, size_t index, void* elem);
+void* vec_t_get(const vec_t* vec, size_t index);
+void* vec_t_get_unchecked(const vec_t* vec, size_t index);
+size_t vec_t_size(const vec_t* vec);
+size_t vec_t_capacity(const vec_t* vec);
+void vec_t_free(vec_t* vec);
+void vec_t_print(const vec_t* vec);
 
 #endif
