@@ -36,13 +36,29 @@ int main() {
 	natural_print_words(c);
 	c = add_unsigned(c, 8);
 	natural_print_words(c);
-	*/
 	mt19937_64_t* generator = mt19937_64_new();
 	mt19937_64_init_array(generator, (uint64_t[]){420, 69}, 2);
 	mt19937_64_result_t result;
 	for(size_t i = 0; i < 10; i++) {
 		result = mt19937_64_generate(generator);
 		printf("successful: %d\ngenerated number: %lu\n", result.success, result.number);
-	}
+	}*/
+	natural_t* a = natural_from_unsigned(UINT64_MAX - 1);
+	natural_t* b = natural_from_unsigned(UINT64_MAX - 3);
+	natural_t* c = natural_add(a, b);
+	natural_print_words(c);
+	c = natural_add(c, b);
+	natural_print_words(c);
+	c = natural_add(c, b);
+	natural_print_words(c);
+	natural_add_to(a, b);
+	natural_print_words(a);
+	natural_add_to(a, b);
+	natural_print_words(a);
+	natural_add_to(a, b);
+	natural_print_words(a);
+	natural_delete(a);
+	natural_delete(b);
+	natural_delete(c);
 	return 0;
 }

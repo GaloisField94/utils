@@ -37,14 +37,19 @@ natural_t* natural_clone(const natural_t* src) {
     return result;
 }
 
+void natural_delete(natural_t* op) {
+	free(op->words);
+	free(op);
+}
+
 natural_t* natural_add(const natural_t* op1, const natural_t* op2) {
-    word_t carry = 0;
     const natural_t* widther = (op1->size >= op2->size ? op1 : op2);
     const natural_t* thinner = (op1->size < op2->size ? op1 : op2);
     natural_t* result = malloc(sizeof(natural_t));
     result->size = widther->size;
     result->capacity = result->size + 1;
     result->words = malloc(sizeof(word_t) * result->capacity);
+    word_t carry = 0;
     for (size_t i = 0; i < thinner->size; i++) {
         result->words[i] = widther->words[i] + thinner->words[i] + carry;
         carry = result->words[i] < widther->words[i];
@@ -75,7 +80,28 @@ natural_t* natural_add_unsigned(const natural_t* op1, uint64_t op2) {
 }
 
 void natural_add_to(natural_t* rop, const natural_t* op) {
-    (void)rop; (void)op;
+    natural_t* widther, * thinner;
+    if(rop->size >= op->size) {
+	    widther = rop;
+	    thinner = op;
+    } else {
+	    widther = op;
+	    thinner = rop;
+	    rop->size = op->size;
+	    rop->capacity = rop->size + 1;
+	    rop->words = realloc(rop->words, sizeof(word_t) * rop->capacity);//consider error handling
+    }
+    word_t carry = 0;
+	for(size_t i = 0; i < thinner->size; i++) {
+		rop->words[i] = rop->words[i] + op->words[i] + carry;
+		carry = rop->words[i] < op->words[i];
+	}
+	for(size_t i = thinner->size; i < widther->size; i++) {
+		rop->words[i] = widther->words[i] + carry;
+		carry = rop->words[i] == 0;
+	}
+	rop->words[rop->size] = carry;
+	rop->size += carry;
 }
 
 static word_t add_dwords_carry(dword_t c, const dword_t a, const dword_t b) {
